@@ -1,4 +1,5 @@
 import prismadb from "@/lib/prismadb";
+import { pusherServer } from "@/lib/pusher";
 import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
@@ -65,7 +66,7 @@ export async function PATCH (
             return new NextResponse("Unauthorized", {status: 403});
         }
 
-        const category = await prismadb.category.updateMany({
+        const category = await prismadb.category.update({
             where: {
                 id: params.categoryId
             },
@@ -74,10 +75,11 @@ export async function PATCH (
                 billboardId
             }
         });
+        await pusherServer.trigger(params.storeId, 'categories:update', category);
 
         return NextResponse.json(category);
     } catch (error) {
-        console.log('[BILLBOARD_PATCH] ', error);
+        console.log('[CATEGORY_PATCH] ', error);
         return new NextResponse("Interal error", { status: 500 });
     }
 };
@@ -108,11 +110,13 @@ export async function DELETE (
             return new NextResponse("Unauthorized", {status: 403});
         }
 
-        const category = await prismadb.category.deleteMany({
+        const category = await prismadb.category.delete({
             where: {
                 id: params.categoryId,
             }
         });
+
+        await pusherServer.trigger(params.storeId, 'categories:delete', category);
 
         return NextResponse.json(category);
     } catch (error) {

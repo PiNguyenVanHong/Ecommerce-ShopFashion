@@ -1,10 +1,11 @@
 "use client";
 
+import { pusherClient } from "@/lib/pusher";
 import { cn } from "@/lib/utils";
 import { Category } from "@prisma/client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 interface MainNavProps {
     data: Category[],
@@ -13,9 +14,51 @@ interface MainNavProps {
 const MainNav: React.FC<MainNavProps> = ({
     data,
 }) => {
+    const [dataRecive, setDateRecive] = useState(data);
     const pathname = usePathname();
 
-    const routes = data.map((route) => ({
+    useEffect(() => {
+        pusherClient.subscribe(data[0].storeId);
+        
+        const categoryHandler = (category: Category) => {
+            setDateRecive((current: any) => {
+
+                return [...current, category];
+            });
+        }
+
+        const categoryUpdateHandler = (category: Category) => {
+            setDateRecive((current) => current.map(currentCategory => {
+                if(currentCategory.id === category.id) {
+                    return category;
+                }
+                return currentCategory;
+            }));
+        };
+
+
+        const categoryDeleteHandler = (category: Category) => {
+            setDateRecive((current) => current.filter(currentCategory => {
+                if(currentCategory.id !== category.id) {
+                    return currentCategory;
+                }
+            }));
+        }
+
+
+        pusherClient.bind('categories:new', categoryHandler);
+        pusherClient.bind('categories:update', categoryUpdateHandler);
+        pusherClient.bind('categories:delete', categoryDeleteHandler);
+
+        return () => {
+            pusherClient.unsubscribe(data[0].storeId);
+            pusherClient.unbind('categories:new', categoryHandler);
+            pusherClient.unbind('categories:update', categoryUpdateHandler);
+            pusherClient.unbind('categories:delete', categoryDeleteHandler);
+        }
+    }, [data[0].storeId]);
+
+    const routes = dataRecive.map((route) => ({
         id: route.id,
         href: `/category/${route.id}`,
         label: route.name,

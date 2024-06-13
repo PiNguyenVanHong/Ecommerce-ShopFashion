@@ -1,7 +1,5 @@
-import qs from "query-string";
-
 import prismadb from "@/lib/prismadb";
-import { Product } from "@prisma/client";
+import { Category, Image, Product } from "@prisma/client";
 
 const URL = `${process.env.NEXT_PUBLIC_API_URL}`;
 
@@ -12,7 +10,9 @@ interface Query {
     isFeatured?: boolean;
 };
 
-const getProducts = async (query: Query): Promise<Product[]> => {
+const getProducts = async (query: Query): Promise<Product & { 
+    images: Image, category: Category 
+}[] | any[]> => {
     try {
         const products = await prismadb.product.findMany({
             where: {
@@ -25,6 +25,8 @@ const getProducts = async (query: Query): Promise<Product[]> => {
             include: {
                 images: true,
                 category: true,
+                size: true,
+                color: true,
             },
         });
     

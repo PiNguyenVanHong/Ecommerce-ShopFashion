@@ -11,7 +11,7 @@ const getCategories = async (): Promise<Category[]> => {
             storeId: URL,
         },
         include: {
-
+            
         },
     });
 

@@ -3,8 +3,6 @@
 import { useParams, useRouter } from "next/navigation";
 import { Plus } from "lucide-react";
 
-import { Billboard } from "@prisma/client";
-
 import { Button } from "@/components/ui/button";
 import { Heading } from "@/components/ui/heading";
 import { CategoryColumn, columns } from "@/app/dashboard/[storeId]/(routes)/categories/_components/column";
@@ -13,7 +11,7 @@ import { DataTable } from "@/components/ui/data-table";
 import { ApiList } from "@/components/ui/api-list";
 
 interface CategoryClientProps {
-    data: CategoryColumn[]
+    data: CategoryColumn[];
 }
 
 export const CategoryClient: React.FC<CategoryClientProps> = ({
