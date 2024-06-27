@@ -13,7 +13,9 @@ interface Query {
 const getProducts = async (query: Query): Promise<Product & { 
     images: Image, category: Category 
 }[] | any[]> => {
+    
     try {
+        await new Promise(resolve => setTimeout(resolve, 5000));
         const products = await prismadb.product.findMany({
             where: {
                 storeId: URL,
@@ -28,6 +30,10 @@ const getProducts = async (query: Query): Promise<Product & {
                 size: true,
                 color: true,
             },
+            orderBy: {
+                createdAt: "desc",
+            },
+            take: 4,
         });
     
         return products;

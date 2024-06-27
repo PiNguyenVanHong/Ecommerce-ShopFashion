@@ -1,4 +1,5 @@
 import prismadb from "@/lib/prismadb";
+import { pusherServer } from "@/lib/pusher";
 
 import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
@@ -70,6 +71,8 @@ export async function POST(
                 storeId: params.storeId,
             }
         });
+
+        await pusherServer.trigger(params.storeId, 'colors:create', color);
 
         return NextResponse.json(color);
 

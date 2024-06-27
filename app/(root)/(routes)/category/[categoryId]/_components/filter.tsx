@@ -1,12 +1,14 @@
 "use client";
 
-import { Color, Size } from "@prisma/client";
-
+import { useEffect, useState } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
 import qs from "query-string";
 
-import { useSearchParams, useRouter } from "next/navigation";
-import Button from "@/components/user/ui/Button";
 import { cn } from "@/lib/utils";
+import { pusherClient } from "@/lib/pusher";
+import { Color, Size } from "@prisma/client";
+
+import Button from "@/components/user/ui/Button";
 
 interface FilterProps {
     data: (Size | Color)[];
@@ -17,6 +19,50 @@ interface FilterProps {
 const Filter: React.FC<FilterProps> = ({
     data, name, valueKey,
 }) => {
+    const [dataFilter, setDataFilter] = useState(data);
+
+    useEffect(() => {
+        pusherClient.subscribe(data[0].storeId);
+        
+        const filterHandle = (filter: Size | Color) => {
+            setDataFilter((current: any) => {
+                console.log(filter);
+                
+                return [...current, filter];
+            });
+        }
+
+        const filterUpdateHandler = (filter: Size | Color) => {
+            setDataFilter((current) => current.map(currentFilter => {
+                if(currentFilter.id === filter.id) {
+                    return filter;
+                }
+                return currentFilter;
+            }));
+        };
+
+
+        const filterDeleteHandler = (filter: Size | Color) => {
+            setDataFilter((current) => current.filter(currentFilter => {
+                if(currentFilter.id !== filter.id) {
+                    return currentFilter;
+                }
+            }));
+        }
+
+
+        pusherClient.bind(`${name}:create`, filterHandle);
+        pusherClient.bind(`${name}:update`, filterUpdateHandler);
+        pusherClient.bind(`${name}:delete`, filterDeleteHandler);
+
+        return () => {
+            pusherClient.unsubscribe(data[0].storeId);
+            pusherClient.unbind(`${name}:create`, filterHandle);
+            pusherClient.unbind(`${name}:update`, filterUpdateHandler);
+            pusherClient.unbind(`${name}:delete`, filterDeleteHandler);
+        }
+    }, [data[0].storeId]);
+
     const searchParams = useSearchParams();
     const router = useRouter();
 
@@ -46,20 +92,20 @@ const Filter: React.FC<FilterProps> = ({
 
     return ( 
         <div className="mb-8">
-            <h3 className="text-lg font-semibold">
+            <h3 className="text-lg font-semibold capitalize">
                 {name}
             </h3>
             <hr className="my-4" />
             <h3 className="flex flex-wrap gap-2">
-                {data.map((filter) => (
+                {dataFilter.map((filter) => (
                     <div 
                         key={filter.id}
-                        className="flex items-center"
+                        className="flex items-center cursor-pointer"
                     >
                         <Button
                             className={cn(
-                                "rounded-md text-sm text-gray-800 p-2 bg-white border border-gray-300",
-                                selectedValue === filter.id && "bg-black text-white"
+                                "rounded-md text-sm text-card-foreground bg-background p-2  dark:bg-card/60 border border-gray-300 dark:border-[#575757] capitalize",
+                                selectedValue === filter.id && "bg-black dark:bg-[#3A3A3A] dark:border-gray-400 text-white"
                             )}
                             onClick={() => onClick(filter.id)}
                         >

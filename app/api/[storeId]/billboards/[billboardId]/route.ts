@@ -1,4 +1,5 @@
 import prismadb from "@/lib/prismadb";
+import { pusherServer } from "@/lib/pusher";
 import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
@@ -65,7 +66,7 @@ export async function PATCH (
             return new NextResponse("Unauthorized", {status: 403});
         }
 
-        const billboard = await prismadb.billboard.updateMany({
+        const billboard = await prismadb.billboard.update({
             where: {
                 id: params.billboardId
             },
@@ -74,6 +75,8 @@ export async function PATCH (
                 imageUrl,
             }
         });
+
+        await pusherServer.trigger(params.storeId, 'billboard:update', billboard);
 
         return NextResponse.json(billboard);
     } catch (error) {

@@ -1,4 +1,5 @@
 import prismadb from "@/lib/prismadb";
+import { pusherServer } from "@/lib/pusher";
 import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
@@ -110,6 +111,7 @@ export async function PATCH (
                 isArchived,
             }
         });
+
         // only update images base on productId params
         const product = await prismadb.product.update({
             where: {
@@ -123,8 +125,17 @@ export async function PATCH (
                         ]
                     }
                 }
+            },
+            include: {
+                images: true,
+                color: true,
+                size: true,
+                category: true,
             }
-        })
+        });
+
+        await pusherServer.trigger(params.storeId, 'product:update', product);
+        await pusherServer.trigger(params.productId, 'product:update', product);
 
         return NextResponse.json(product);
     } catch (error) {
@@ -159,11 +170,13 @@ export async function DELETE (
             return new NextResponse("Unauthorized", {status: 403});
         }
 
-        const product = await prismadb.product.deleteMany({
+        const product = await prismadb.product.delete({
             where: {
                 id: params.productId,
             }
         });
+
+        await pusherServer.trigger(params.storeId, 'product:delete', product);
 
         return NextResponse.json(product);
     } catch (error) {

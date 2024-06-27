@@ -1,4 +1,5 @@
 import prismadb from "@/lib/prismadb";
+import { pusherServer } from "@/lib/pusher";
 import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
@@ -65,7 +66,7 @@ export async function PATCH (
             return new NextResponse("Unauthorized", {status: 403});
         }
 
-        const color = await prismadb.color.updateMany({
+        const color = await prismadb.color.update({
             where: {
                 id: params.colorId
             },
@@ -74,6 +75,8 @@ export async function PATCH (
                 value,
             }
         });
+
+        await pusherServer.trigger(params.storeId, 'colors:update', color);
 
         return NextResponse.json(color);
     } catch (error) {
@@ -108,11 +111,13 @@ export async function DELETE (
             return new NextResponse("Unauthorized", {status: 403});
         }
 
-        const color = await prismadb.color.deleteMany({
+        const color = await prismadb.color.delete({
             where: {
                 id: params.colorId,
             }
         });
+
+        await pusherServer.trigger(params.storeId, 'colors:delete', color);
 
         return NextResponse.json(color);
     } catch (error) {

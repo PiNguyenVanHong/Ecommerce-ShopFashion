@@ -12,51 +12,51 @@ interface MainNavProps {
 }
 
 const MainNav: React.FC<MainNavProps> = ({
-    data,
+    data
 }) => {
     const [dataRecive, setDateRecive] = useState(data);
     const pathname = usePathname();
 
     useEffect(() => {
-        pusherClient.subscribe(data[0].storeId);
+            pusherClient.subscribe(data[0].storeId);
         
-        const categoryHandler = (category: Category) => {
-            setDateRecive((current: any) => {
+            const categoryHandler = (category: Category) => {
+                setDateRecive((current: any) => {
 
-                return [...current, category];
-            });
-        }
+                    return [...current, category];
+                });
+            }
 
-        const categoryUpdateHandler = (category: Category) => {
-            setDateRecive((current) => current.map(currentCategory => {
-                if(currentCategory.id === category.id) {
-                    return category;
-                }
-                return currentCategory;
-            }));
-        };
-
-
-        const categoryDeleteHandler = (category: Category) => {
-            setDateRecive((current) => current.filter(currentCategory => {
-                if(currentCategory.id !== category.id) {
+            const categoryUpdateHandler = (category: Category) => {
+                setDateRecive((current) => current.map(currentCategory => {
+                    if(currentCategory.id === category.id) {
+                        return category;
+                    }
                     return currentCategory;
-                }
-            }));
-        }
+                }));
+            };
 
 
-        pusherClient.bind('categories:new', categoryHandler);
-        pusherClient.bind('categories:update', categoryUpdateHandler);
-        pusherClient.bind('categories:delete', categoryDeleteHandler);
+            const categoryDeleteHandler = (category: Category) => {
+                setDateRecive((current) => current.filter(currentCategory => {
+                    if(currentCategory.id !== category.id) {
+                        return currentCategory;
+                    }
+                }));
+            }
 
-        return () => {
-            pusherClient.unsubscribe(data[0].storeId);
-            pusherClient.unbind('categories:new', categoryHandler);
-            pusherClient.unbind('categories:update', categoryUpdateHandler);
-            pusherClient.unbind('categories:delete', categoryDeleteHandler);
-        }
-    }, [data[0].storeId]);
+
+            pusherClient.bind('categories:new', categoryHandler);
+            pusherClient.bind('categories:update', categoryUpdateHandler);
+            pusherClient.bind('categories:delete', categoryDeleteHandler);
+
+            return () => {
+                pusherClient.unsubscribe(data[0].storeId);
+                pusherClient.unbind('categories:new', categoryHandler);
+                pusherClient.unbind('categories:update', categoryUpdateHandler);
+                pusherClient.unbind('categories:delete', categoryDeleteHandler);
+            }
+    }, [data, data[0].storeId]);
 
     const routes = dataRecive.map((route) => ({
         id: route.id,
@@ -66,7 +66,7 @@ const MainNav: React.FC<MainNavProps> = ({
     }));
 
     return ( 
-        <nav
+        <nav key={data[0].storeId}
             className="mx-6 flex items-center space-x-4 lg:space-x-6"
         >
             {routes.map((route) => (
@@ -74,8 +74,8 @@ const MainNav: React.FC<MainNavProps> = ({
                     key={route.id}
                     href={route.href}
                     className={cn(
-                        "text-sm font-medium transition-colors hover:text-black capitalize",
-                        route.active ? "text-black" : "text-neutral-500"
+                        "text-sm font-medium transition-colors hover:text-primary text-muted-foreground dark:text-white dark:hover:text-white capitalize",
+                        route.active ? "text-primary hover:text-primary" : "text-neutral-500 dark:text-muted-foreground"
                     )}
                 >
                     {route.label}

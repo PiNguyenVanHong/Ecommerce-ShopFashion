@@ -21,15 +21,18 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  
   return (
     <ClerkProvider>
       <html lang="en">
         <body className={inter.className}>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+            {/* <QueryClientProvider client={queryClient}> */}
             <ToasterProvider />
             <Toaster />
             <ModalProvider />
-            {children}
+              {children}
+            {/* </QueryClientProvider> */}
           </ThemeProvider>
         </body>
       </html>

@@ -168,7 +168,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                             </FormItem>
                         )}
                     />
-                    <div className="grid grid-cols-3 gap-8">
+                    <div className="grid lg:grid-cols-3 lg:gap-8 md:gap-6 md:grid-cols-2 sm:gap-5 gap-4">
                         <FormField 
                             control={form.control}
                             name="name"

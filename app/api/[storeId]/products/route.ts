@@ -1,4 +1,5 @@
 import prismadb from "@/lib/prismadb";
+import { pusherServer } from "@/lib/pusher";
 
 import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
@@ -12,6 +13,7 @@ export async function GET(
         const categoryId = searchParams.get("categoryId") || undefined;
         const colorId = searchParams.get("colorId") || undefined;
         const sizeId = searchParams.get("sizeId") || undefined;
+        const page = Number(searchParams.get("page") || 1);
         const isFeatured = searchParams.get("isFeatured");
 
         if(!params.storeId) {
@@ -35,7 +37,9 @@ export async function GET(
             },
             orderBy: {
                 createdAt: "desc",
-            }
+            },
+            skip: (page - 1) * 4,
+            take: 4,
         });
 
         return NextResponse.json(products);
@@ -127,6 +131,8 @@ export async function POST(
                 }
             }
         });
+
+        await pusherServer.trigger(params.storeId, 'product:create', product);
 
         return NextResponse.json(product);
 

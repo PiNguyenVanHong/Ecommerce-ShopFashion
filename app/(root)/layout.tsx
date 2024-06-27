@@ -16,18 +16,17 @@ export default function HomepageLayout({
     children
 } : {
     children: React.ReactNode
-}) {
-
+}) {  
     return (
         <>
             <ModalProvider />
-            <div className={font.className}>
-                <Navbar />
-                <main>
-                    {children}
-                </main>
-                <Footer></Footer>
-            </div>
+                <div className={font.className}>
+                    <Navbar />
+                        <main className="pt-16">
+                            {children}
+                        </main>
+                    <Footer></Footer>
+                </div>
         </>
     )
 }

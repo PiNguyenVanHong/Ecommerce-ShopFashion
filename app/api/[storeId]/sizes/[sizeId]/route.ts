@@ -1,4 +1,5 @@
 import prismadb from "@/lib/prismadb";
+import { pusherServer } from "@/lib/pusher";
 import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
@@ -65,7 +66,7 @@ export async function PATCH (
             return new NextResponse("Unauthorized", {status: 403});
         }
 
-        const size = await prismadb.size.updateMany({
+        const size = await prismadb.size.update({
             where: {
                 id: params.sizeId
             },
@@ -74,6 +75,8 @@ export async function PATCH (
                 value,
             }
         });
+
+        await pusherServer.trigger(params.storeId, 'sizes:update', size);
 
         return NextResponse.json(size);
     } catch (error) {
@@ -108,11 +111,13 @@ export async function DELETE (
             return new NextResponse("Unauthorized", {status: 403});
         }
 
-        const size = await prismadb.size.deleteMany({
+        const size = await prismadb.size.delete({
             where: {
                 id: params.sizeId,
             }
         });
+
+        await pusherServer.trigger(params.storeId, 'sizes:delete', size);
 
         return NextResponse.json(size);
     } catch (error) {
