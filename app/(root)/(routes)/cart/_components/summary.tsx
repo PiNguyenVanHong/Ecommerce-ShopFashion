@@ -1,7 +1,7 @@
 "use client";
 
 import axios from "axios";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 
@@ -9,6 +9,7 @@ import Button from "@/components/user/ui/Button";
 import Currency from "@/components/user/ui/currency";
 import useCart from "@/hooks/use-cart";
 import { useOrigin } from "@/hooks/use-origin";
+import { Spinner } from "@/components/user/ui/spinner";
 
 const Summary = () => {
     const origin = useOrigin();
@@ -16,6 +17,7 @@ const Summary = () => {
     const searchParams = useSearchParams();
     const items = useCart((state) => state.items);
     const removeAll = useCart((state) => state.removeAll);
+    const [loading, setIsLoading] = useState(false);
 
     useEffect(() => {
         if(searchParams.get("success")) {
@@ -33,12 +35,14 @@ const Summary = () => {
     }, 0);
     
     const onCheckout = async () => {
+        setIsLoading(true);
         const response = await axios.post(`/api/${process.env.NEXT_PUBLIC_API_URL}/checkout`, {
             productIds: items.map((item) => item.id),
             url: origin,
         });
 
         router.push(response.data.url);
+        setIsLoading(false);
     }
 
     return ( 
@@ -55,7 +59,7 @@ const Summary = () => {
                 </div>
             </div>
             <Button disabled={items.length === 0} onClick={onCheckout} className="w-full mt-6">
-                Checkout
+                {loading ? <Spinner className="text-white" /> : "Checkout"}
             </Button>
         </div>
      );

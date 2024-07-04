@@ -1,5 +1,5 @@
-import { CreditCard, DollarSign } from "lucide-react";
-import { formatter } from "@/lib/utils";
+import { CreditCard, DollarSign, Package2 } from "lucide-react";
+import { formatter2 } from "@/lib/utils";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Heading } from "@/components/ui/heading";
@@ -37,7 +37,7 @@ const DashboardPage: React.FC<DashboardPageProps> = async ({
                         </CardHeader>
                         <CardContent>
                             <div className="text-2xl font-bold">
-                                {formatter.format(totalRevenue)}
+                                {formatter2.format(Number(totalRevenue))}
                             </div>
                         </CardContent>
                     </Card>
@@ -59,7 +59,7 @@ const DashboardPage: React.FC<DashboardPageProps> = async ({
                             <CardTitle className="text-sm font-medium">
                                 Product In Stock
                             </CardTitle>
-                            <DollarSign className="h-4 w-4 text-muted-foreground" />
+                            <Package2 className="h-4 w-4 text-muted-foreground" />
                         </CardHeader>
                         <CardContent>
                             <div className="text-2xl font-bold">

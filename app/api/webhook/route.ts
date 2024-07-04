@@ -2,6 +2,7 @@ import Stripe from "stripe";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 
+import { pusherServer } from "@/lib/pusher";
 import { stripe } from "@/lib/stripe";
 import prismadb from "@/lib/prismadb";
 
@@ -47,8 +48,12 @@ export async function POST(req: Request) {
                 phone: session?.customer_details?.phone || ''
             },
             include: {
-                orderItems: true,
-            }
+                orderItems: {
+                    include: {
+                        product: true,
+                    }
+                }
+            },
         });
 
         const productIds = order.orderItems.map((orderItem) => orderItem.productId);
@@ -63,6 +68,8 @@ export async function POST(req: Request) {
                 isArchived: true,
             }
         });
+
+        await pusherServer.trigger(order.storeId, 'order:update', order);
     }
 
     return new NextResponse(null, { status: 200 });

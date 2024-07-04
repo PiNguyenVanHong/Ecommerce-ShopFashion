@@ -24,9 +24,9 @@ const Navbar = async () => {
 
     return ( 
         <div className="border-b bg-card">
-            <div className="w-auto flex h-16 items-center px-4">
+            <div className="w-auto flex h-16 items-center px-4 overflow-hidden">
                 <StoreSwitcher items={stores} />
-                <MainNav className="mx-6 overflow-x-scroll" />
+                <MainNav className="mx-6 overflow-hidden" />
                 <div className="ml-auto flex items-center space-x-4">
                     <ThemeToggle />
                     <UserButton afterSignOutUrl="/" />

@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 
 import { stripe } from "@/lib/stripe";
 import prismadb from "@/lib/prismadb";
+import { pusherServer } from "@/lib/pusher";
 
 const corsHeaders = {
     "Access-Control-Allow-Origin": "*",
@@ -60,7 +61,15 @@ export async function POST(
                     }
                 }))
             }
-        }
+        },
+        include: {
+            orderItems: {
+                include: {
+                    product: true,
+                }
+            }
+        },
+
     });
 
     const session = await stripe.checkout.sessions.create({
@@ -76,6 +85,8 @@ export async function POST(
             orderId: order.id
         }
     });
+
+    await pusherServer.trigger(order.storeId, 'order:new', order);
 
     return NextResponse.json({ url: session.url }, {
         headers: corsHeaders

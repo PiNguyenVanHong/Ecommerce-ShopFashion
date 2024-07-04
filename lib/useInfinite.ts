@@ -30,11 +30,8 @@ const useInfiniteProducts = ({ initialProducts, initialPage = 1 }: ProductProps)
             setPage((prevPage) => prevPage + 1);
             setHasMore(false);
         } else {
-            setProducts((prevProducts) => [...prevProducts, ...newProducts]);
-            setPage((prevPage) => prevPage + 1);
-            if (products[products.length] === newProducts[3]) {
-              setHasMore(false);
-            }
+              setProducts((prevProducts) => [...prevProducts, ...newProducts]);
+              setPage((prevPage) => prevPage + 1);
         }
       }  else {
         setHasMore(false);

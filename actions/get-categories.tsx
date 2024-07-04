@@ -1,15 +1,17 @@
 import prismadb from "@/lib/prismadb";
 import { Category } from "@prisma/client";
+import { boolean } from "zod";
 
 const URL = `${process.env.NEXT_PUBLIC_API_URL}`;
 
-const getCategories = async (): Promise<Category[]> => {
+const getCategories = async (orderBy?: boolean): Promise<Category[]> => {
       
     const categories = await prismadb.category.findMany({
         where: {
             storeId: URL,
         },
-        include: {
+        orderBy: {
+            createdAt: orderBy ? "asc" : "desc",
         },
     });
 

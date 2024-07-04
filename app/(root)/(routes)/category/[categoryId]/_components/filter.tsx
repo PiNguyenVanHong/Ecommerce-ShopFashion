@@ -68,26 +68,32 @@ const Filter: React.FC<FilterProps> = ({
 
     const selectedValue = searchParams.get(valueKey);
 
-    const onClick = (id: string) => {
-        const current = qs.parse(searchParams.toString());
+    const onClick = async (id: string) => {
+        try {
+            const current = qs.parse(searchParams.toString());
         
-        const query = {
-            ...current,
-            [valueKey]: id
+            const query = {
+                ...current,
+                [valueKey]: id
+            }
+
+            // Xét điều kiện, nếu có id trên url rồi, thì cho nó về null,
+            // để không có selected cái thẻ đó
+            if(current[valueKey] === id) {
+                query[valueKey] = null;
+            }
+
+            const url = qs.stringifyUrl({
+                url: window.location.href,
+                query
+            }, { skipNull: true });
+
+             router.push(url);
+            
+        } catch (error) {
+            console.log(error);
+            
         }
-
-        // Xét điều kiện, nếu có id trên url rồi, thì cho nó về null,
-        // để không có selected cái thẻ đó
-        if(current[valueKey] === id) {
-            query[valueKey] = null;
-        }
-
-        const url = qs.stringifyUrl({
-            url: window.location.href,
-            query
-        }, { skipNull: true });
-
-        router.push(url);
     }
 
     return ( 

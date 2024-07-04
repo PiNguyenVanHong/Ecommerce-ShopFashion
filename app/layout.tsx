@@ -26,7 +26,7 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body className={inter.className}>
-          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
             {/* <QueryClientProvider client={queryClient}> */}
             <ToasterProvider />
             <Toaster />

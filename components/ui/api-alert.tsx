@@ -41,7 +41,7 @@ export const ApiAlert: React.FC<ApiAlertProps> = ({
                 </Badge>
             </AlertTitle>
             <AlertDescription className="mt-4 flex items-center justify-between gap-8">
-                <code className="relative rounded bg-muted px-[.3rem] py-[.2rem] font-mono text-sm font-semibold line-clamp-1 flex-grow sm:text-xs">
+                <code className="relative rounded bg-muted px-[.3rem] py-[.2rem] font-mono text-sm font-semibold select-all line-clamp-1 flex-grow sm:text-xs">
                     {description}
                 </code>
                 <Button className="flex-grow-0" variant={"outline"} size={"icon"} onClick={onCopy}>

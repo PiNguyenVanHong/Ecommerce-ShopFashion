@@ -1,11 +1,7 @@
 "use client";
 
+import { formatter2 } from "@/lib/utils";
 import { useEffect, useState } from "react";
-
-const formatter = new Intl.NumberFormat("vi-VN", {
-    style: 'currency',
-    currency: 'VND',
-});
 
 interface CurrencyProps {
     value?: string | number;
@@ -26,7 +22,7 @@ const Currency: React.FC<CurrencyProps> = ({
 
     return ( 
         <p key={value} className="font-semibold">
-            {formatter.format(Number(value))}
+            {formatter2.format(Number(value))}
         </p>
      );
 }

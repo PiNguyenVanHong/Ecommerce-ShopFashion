@@ -11,7 +11,7 @@ export const revalidate = 0;
 
 const Navbar = async () => {
 
-   const categories = await getCategories();
+   const categories = await getCategories(true);
 
     return ( 
         <div className={cn("border-b fixed w-full bg-background/50 backdrop-blur-lg z-20")}>

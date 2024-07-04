@@ -80,3 +80,29 @@ body,
     @apply bg-background text-foreground;
   }
 }
+
+@layer utilities {
+  /* Custom scrollbar styles */
+  .custom-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: rgb(31, 29, 29) white;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: white;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: rgb(31, 41, 55);
+    border-radius: 20px;
+    border: 1px solid white;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-button {
+    display: none; /* Hide the up/down buttons */
+  }
+}

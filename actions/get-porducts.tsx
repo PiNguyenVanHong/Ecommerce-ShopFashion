@@ -8,6 +8,7 @@ interface Query {
     colorId?: string;
     sizeId?: string;
     isFeatured?: boolean;
+    page?: number | string | undefined;
 };
 
 const getProducts = async (query: Query): Promise<Product & { 
@@ -15,7 +16,6 @@ const getProducts = async (query: Query): Promise<Product & {
 }[] | any[]> => {
     
     try {
-        await new Promise(resolve => setTimeout(resolve, 5000));
         const products = await prismadb.product.findMany({
             where: {
                 storeId: URL,
@@ -23,6 +23,7 @@ const getProducts = async (query: Query): Promise<Product & {
                 sizeId: query.sizeId,
                 categoryId: query.categoryId,
                 isFeatured: query.isFeatured,
+                isArchived: false,
             },
             include: {
                 images: true,
