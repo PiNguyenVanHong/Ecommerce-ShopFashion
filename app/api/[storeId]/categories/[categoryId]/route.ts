@@ -73,6 +73,9 @@ export async function PATCH (
             data: {
                 name,
                 billboardId
+            },
+            include: {
+                billboard: true,
             }
         });
         await pusherServer.trigger(params.storeId, 'categories:update', category);

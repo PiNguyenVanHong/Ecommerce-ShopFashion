@@ -116,16 +116,19 @@ const MainNav: React.FC<MainNavProps> = ({ data }) => {
 
           <ul
             className={cn(
-              "custom-scrollbar absolute z-10 top-10 left-0 w-56 max-h-56 overflow-y-scroll flex flex-col items-center space-y-2 bg-card p-2 rounded-md transition duration-300",
-              active ? "flex opacity-90" : "hidden opacity-0"
+              "custom-scrollbar absolute z-10 top-10 left-0 w-56 max-h-44 flex flex-col items-center space-y-2 bg-card p-2 rounded-md transition duration-300",
+              active ? "flex opacity-90" : "hidden opacity-0", 
             )}
           >
+            <div className={cn("w-full h-full overflow-hidden", 
+              routes.length > 4 && "overflow-y-scroll ",
+            )}>
             {routes.map((route) => (
               <Link
                 key={route.id}
                 href={route.href}
                 className={cn(
-                  "w-full h-8 flex justify-center items-center text-sm font-medium transition-colors hover:text-primary rounded-md text-muted-foreground hover:bg-gray-400/20 dark:text-white dark:hover:text-white capitalize",
+                  "w-full h-8 flex justify-center items-center text-sm font-medium transition-colors hover:text-primary rounded-md text-muted-foreground hover:bg-gray-400/20 dark:text-white dark:hover:text-white capitalize my-2",
                   route.active
                     ? "text-primary hover:text-primary bg-gray-400/20"
                     : "text-neutral-500 dark:text-muted-foreground"
@@ -134,6 +137,7 @@ const MainNav: React.FC<MainNavProps> = ({ data }) => {
                 {route.label}
               </Link>
             ))}
+            </div>
           </ul>
         </Button>
       </nav>

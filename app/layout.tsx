@@ -11,6 +11,8 @@ import { ThemeProvider } from "@/providers/theme-provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
+const aRoute = process.env.NEXT_CLERK_ADMIN_SIGN_IN_FALLBACK_URL;
+
 export const metadata: Metadata = {
   title: "Admin Dashboard",
   description: "For admin role",
@@ -23,7 +25,7 @@ export default function RootLayout({
 }>) {
   
   return (
-    <ClerkProvider>
+    <ClerkProvider afterSignOutUrl={"/"} signInForceRedirectUrl={aRoute}>
       <html lang="en">
         <body className={inter.className}>
           <ThemeProvider attribute="class" defaultTheme="light" enableSystem>

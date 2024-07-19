@@ -22,7 +22,7 @@ interface ProductCardProps {
       } & {
         category: Category;
       })
-    | any;
+    | any | null;
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ data }) => {
@@ -49,7 +49,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ data }) => {
   };
 
   useEffect(() => {
-    pusherClient.subscribe(data.id);
+    pusherClient.subscribe(data?.id);
 
     const productUpdateHandler = (item: any) => {
       setDataProduct((current: any) => {
@@ -63,11 +63,11 @@ const ProductCard: React.FC<ProductCardProps> = ({ data }) => {
     pusherClient.bind("product:update", productUpdateHandler);
 
     return () => {
-      pusherClient.unsubscribe(data.id);
+      pusherClient.unsubscribe(data?.id);
       pusherClient.unbind("product:update", productUpdateHandler);
     };
-  }, [data.id]);
-
+  }, [data?.id]);
+  
   return (
     <div
       onClick={handleClick}

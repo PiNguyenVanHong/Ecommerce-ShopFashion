@@ -1,7 +1,7 @@
 import { format } from "date-fns";
 
 import prismadb from "@/lib/prismadb";
-import { formatter } from "@/lib/utils";
+import { formatter, formatter2 } from "@/lib/utils";
 
 import { ProductClient } from "@/app/dashboard/[storeId]/(routes)/products/_components/client";
 import { ProductColumn } from "@/app/dashboard/[storeId]/(routes)/products/_components/column";
@@ -31,7 +31,7 @@ const ProductsPage = async ({
         name: item.name,
         isFeatured: item.isFeatured,
         isArchived: item.isArchived,
-        price: formatter.format(item.price.toNumber()),
+        price: formatter2.format(item.price.toNumber()),
         category: item.category.name,
         size: item.size.value,
         color: item.color.value,

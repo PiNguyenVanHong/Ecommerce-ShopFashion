@@ -4,6 +4,7 @@ import { NextResponse } from "next/server";
 import { stripe } from "@/lib/stripe";
 import prismadb from "@/lib/prismadb";
 import { pusherServer } from "@/lib/pusher";
+import { formatter2 } from "@/lib/utils";
 
 const corsHeaders = {
     "Access-Control-Allow-Origin": "*",
@@ -30,6 +31,9 @@ export async function POST(
             id: {
                 in: productIds,
             }
+        },
+        include: {
+            images: true,
         }
     });
 
@@ -42,8 +46,9 @@ export async function POST(
                 currency: "VND",
                 product_data: {
                     name: product.name,
+                    images: [product.images[0].url],
                 },
-                unit_amount: product.price.toNumber()
+                unit_amount: product.price.toNumber(),
             }
         });
     });

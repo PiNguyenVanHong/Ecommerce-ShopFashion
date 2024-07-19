@@ -4,7 +4,7 @@ import prismadb from "@/lib/prismadb";
 
 import { OrderClient } from "@/app/dashboard/[storeId]/(routes)/orders/_components/client";
 import { OrderColumn } from "@/app/dashboard/[storeId]/(routes)/orders/_components/column";
-import { formatter } from "@/lib/utils";
+import { formatter, formatter2 } from "@/lib/utils";
 
 const OrdersPage = async ({
     params
@@ -33,7 +33,7 @@ const OrdersPage = async ({
         phone: item.phone,
         address: item.address,
         products: item.orderItems.map((orderItem) => orderItem.product.name).join(', '),
-        totalPrice: formatter.format(item.orderItems.reduce((total, item) => {
+        totalPrice: formatter2.format(item.orderItems.reduce((total, item) => {
             return total + Number(item.product.price)
         }, 0)),
         isPaid: item.isPaid,

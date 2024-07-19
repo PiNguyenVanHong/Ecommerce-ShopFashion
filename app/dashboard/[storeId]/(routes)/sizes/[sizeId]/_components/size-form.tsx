@@ -82,6 +82,7 @@ export const SizeForm: React.FC<SizeFormProps> = ({
             await axios.delete(`/api/${params.storeId}/sizes/${params.sizeId}`);
             router.refresh();
             router.push(`/dashboard/${params.storeId}/sizes`);
+            router.refresh();
             toast.success("Size deleted.");
         } catch (error) {
             toast.error("Make sure you removed all categories using this billboard first!");

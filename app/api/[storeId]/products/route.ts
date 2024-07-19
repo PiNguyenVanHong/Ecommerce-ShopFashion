@@ -129,6 +129,10 @@ export async function POST(
                         ]
                     }
                 }
+            }, 
+            include: {
+                category: true,
+                images: true,
             }
         });
 
