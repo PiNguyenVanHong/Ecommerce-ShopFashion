@@ -1,36 +1,57 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<h4 align="center">
+ <a href="https://youtu.be/LwsT1mUYnXo?si=HYPmf36RNFcIc3W5" ><img src="https://res.cloudinary.com/dzjbblbta/image/upload/v1724658876/thumnail_j3z4js.png" width="500px" /><br></a>
+ <div align><b>My Project 2024 - Fashion Website</b></div>
+</h4>
+<p align="center">
+  <a href="https://youtu.be/LwsT1mUYnXo?si=HYPmf36RNFcIc3W5" target="_blank">
+     <img src="https://img.shields.io/badge/YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white" target="_blank" /> 
+  </a>
+  
+  <a href="https://shop-fashion-seven.vercel.app/" target="_blank">
+     <img src="https://img.shields.io/badge/Vercel-ffffff?style=for-the-badge&logo=vercel&logoColor=black&padding=14px" target="_blank" /> 
+  </a>
+</p>
+<br>
 
-## Getting Started
+## 	:bricks: Project ###\1: Fashion E-Commerce Website
+### :wink: Project
 
-First, run the development server:
+Hi What's up, I'm really excited after built this project. This project is an e-commerce website about clothes, and using <b>Stripe</b> to payment. Beside, I use pusher to realtime information between Store and Dashboard, to notify when have a order for users. If you want more detail, click to button youtobe.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### :camera_flash: Some UI Screenshorts
+<div align="center">
+  <div align="center">
+    <img src="https://res.cloudinary.com/dzjbblbta/image/upload/v1724661161/fr8p3adoxjcyocshzwwb.png" width="500px" target="_blank" /> 
+    <img src="https://res.cloudinary.com/dzjbblbta/image/upload/v1724661161/w4r4jy8revkfozjjsamg.png" width="500px" target="_blank" /> 
+    <img src="https://res.cloudinary.com/dzjbblbta/image/upload/v1724661155/ekqvlmcyvocwnyblms6k.png" width="500px" target="_blank" /> 
+  </div>
+  <div align="center">
+    <img src="https://res.cloudinary.com/dzjbblbta/image/upload/v1724661155/y9vuksdxf7gsnqaxo2t1.png" width="300px" target="_blank" />
+    <img src="https://res.cloudinary.com/dzjbblbta/image/upload/v1724661154/oycnsja6z9f5jgfrarse.png" width="300px" target="_blank" />
+    <img src="https://res.cloudinary.com/dzjbblbta/image/upload/v1724661155/vi77p5fwvr6ufgvj1iva.png" width="300px" target="_blank" />
+  </div>
+</div>
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### :medal_military: Used Technologies
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+The following project was made
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+- [NextJS](https://nextjs.org/)
+- [TailwindCSS](https://tailwindcss.com/)
+- [Shadcn-UI](https://ui.shadcn.com/)
+- [NeonDB](https://neon.tech/)
+- [Prisma](https://www.prisma.io/)
+- [Clerk](https://dashboard.clerk.com/)
+- [Cloudinary](https://cloudinary.com/)
+- [Stripe](https://stripe.com/)
+- [Pusher](https://pusher.com/)
+- [Date-FNS](https://date-fns.org/)
+- [Query-String](https://www.npmjs.com/package/query-string)
+- [Rechart](https://recharts.org/)
+- [Zustand](https://www.npmjs.com/package/zustand)
+- [Axios](https://www.npmjs.com/package/axios)
+- [Eslint](https://www.npmjs.com/package/eslint)
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+<p align="center">Made with love ❤️ by <b><a src="https://github.com/PiNguyenVanHong">PiKayQi</a></b></p>
